@@ -1,0 +1,27 @@
+﻿@page "/product/{Id:int}"
+@rendermode InteractiveServer
+<div class="container my-5">
+    <button class="btn btn-link mb-4" @onclick="GoBack">← Kembali ke Katalog</button>
+
+    @if (produk == null)
+    {
+        <p><em>Memuat data produk...</em></p>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-6">
+                <img src="@produk.GambarUrl" class="img-fluid rounded shadow" alt="@produk.Nama">
+            </div>
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold">@produk.Nama</h1>
+                <h2 class="text-success mb-4">Rp @produk.Harga.ToString("N0")</h2>
+                <p class="lead">@produk.DeskripsiSingkat</p>
+                
+                <div class="mt-5">
+                    <button class="btn btn-primary btn-lg px-5 rounded-pill" @onclick="() => TambahKeranjang(produk)">Tambah ke Keranjang</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

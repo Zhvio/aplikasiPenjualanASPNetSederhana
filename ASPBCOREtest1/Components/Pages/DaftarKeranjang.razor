@@ -1,0 +1,66 @@
+﻿@page "/keranjang"
+@rendermode InteractiveServer
+
+<PageTitle>Keranjang Belanja</PageTitle>
+
+<div class="container my-5">
+    <div class="mb-4">
+        <h1 class="fw-bold text-primary">Keranjang Belanja</h1>
+        <p class="text-muted">Anda memiliki @ItemKeranjang.Count item di keranjang.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            @if (ItemKeranjang.Count == 0)
+            {
+                <div class="alert alert-info">Keranjang Anda kosong. <a href="/">Mulai belanja?</a></div>
+            }
+            else
+            {
+                @foreach (var product in ItemKeranjang)
+                {
+                    <div class="card mb-3 shadow-sm border-0">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-3 col-md-2 p-2">
+                                <img src="@product.GambarUrl" class="img-fluid rounded" alt="@product.Nama" style="height: 80px; width: 80px; object-fit: cover;">
+                            </div>
+                            
+                            <div class="col-6 col-md-7">
+                                <div class="card-body py-2">
+                                    <h6 class="card-title mb-1 fw-bold">@product.Nama</h6>
+                                    <p class="small text-muted mb-0">Total: @product.JumlahKeranjang | @product.HargaDisplay</p>
+                                </div>
+                            </div>
+
+                            <div class="col-3 col-md-3 text-end pe-3">
+                                <div class="fw-bold text-success mb-2">@product.SubTotalDisplay</div>
+                                <button class="btn btn-sm btn-outline-danger border-0" @onclick="() => Removeproduk(product)">
+                                    <i class="bi bi-trash"></i> Hapus
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 sticky-top" style="top: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-4">Ringkasan Belanja</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Total Harga</span>
+                        <span class="fw-bold fs-5 text-primary">@Models.Produk.TotalSemuaDisplay </span>
+                    </div>
+                    <hr>
+                    <button class="btn btn-primary w-100 py-3 fw-bold rounded-pill"
+                            @onclick="KonfirmasiPembelian"
+                            disabled="@(ItemKeranjang.Count == 0)">
+                        Konfirmasi Pembelian
+                    </button>
+                    <a href="/" class="btn btn-link w-100 mt-2 text-decoration-none">Lanjut Belanja</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

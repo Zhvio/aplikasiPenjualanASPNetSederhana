@@ -1,0 +1,58 @@
+﻿@page "/sejarah"
+@rendermode InteractiveServer
+
+<PageTitle>Riwayat Pesanan</PageTitle>
+
+<div class="container my-5">
+    <div class="mb-4">
+        <h1 class="fw-bold text-primary">Riwayat Pesanan</h1>
+        <p class="text-muted">Berikut adalah daftar transaksi yang telah Anda konfirmasi.</p>
+    </div>
+
+    @if (ListAllSejarah == null || !ListAllSejarah.Any())
+    {
+        <div class="text-center py-5">
+            <div class="display-1 text-muted"><i class="bi bi-clock-history"></i></div>
+            <p class="lead mt-3">Belum ada riwayat transaksi.</p>
+            <a href="/" class="btn btn-primary">Mulai Belanja</a>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm border-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Tanggal</th>
+                            <th>Nama</th>
+                            <th>Total Pembayaran</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ListAllSejarah)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="text-dark fw-medium">@item.Date.ToString("dd MMM yyyy")</span>
+                                </td>
+                                <td>
+                                    <div class="fw-bold">@item.Nama</div>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-bold">@string.Format("Rp {0:N0}", item.Harga)</span>
+                                </td>
+                                <td>
+                                    <span class="badge rounded-pill @(item.SejarahDesc.Contains("Sukses") ? "bg-success-subtle text-success" : "bg-warning-subtle text-warning")">
+                                        @item.SejarahDesc
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
