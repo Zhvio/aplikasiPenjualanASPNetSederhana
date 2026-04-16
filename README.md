@@ -1,6 +1,6 @@
 # 🛒 ASP.NET App - Aplikasi Penjualan Sederhana Berbasis WEB
 
-Aplikasi Web penjualan sederhana yang dibangun menggunakan **ASP.NET Core Blazor (Server-side)**.
+Aplikasi Web penjualan sederhana yang dibangun menggunakan **ASP.NET Core Blazor (Server-side)** dan **MySql** sebagai database.
 
 ## 🚀 Fitur Utama
 
@@ -16,3 +16,4 @@ Aplikasi Web penjualan sederhana yang dibangun menggunakan **ASP.NET Core Blazor
 - **UI Framework**: Bootstrap 5
 - **Icons**: Bootstrap Icons
 - **Pattern**: Partial Classes (Code-Behind) untuk pemisahan logika dan tampilan.
+- **Database**: Mysql

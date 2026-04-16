@@ -16,8 +16,8 @@
         public string SubTotalDisplay => string.Format("Rp {0:N0}", SubTotal);
 
 
-        public static decimal TotalSemuaKeranjang => ListKeranjang.Sum(p => p.SubTotal);
-        public static string TotalSemuaDisplay => string.Format("Rp {0:N0}", TotalSemuaKeranjang);
+        public decimal TotalSemuaKeranjang => ListKeranjang.Sum(p => p.SubTotal);
+        public string TotalSemuaDisplay => string.Format("Rp {0:N0}", TotalSemuaKeranjang);
   
         public DateOnly Date { get; set; }
 

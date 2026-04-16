@@ -7,6 +7,9 @@ namespace ASPBCOREtest1.Components.Pages
 {
     public partial class ProdukDetail
     {
+
+        [Inject] private ProdukService service { get; set; }
+
         [Parameter] public int Id { get; set; }
 
         private Produk produk;
@@ -49,7 +52,7 @@ namespace ASPBCOREtest1.Components.Pages
         private async void TambahKeranjang(Produk item)
         {
             await JSRuntime.InvokeVoidAsync("alert", $"Selamat! {item.Nama} Berhasil Masuk Keranjang.");
-            ProdukService.TambahKeranjang(item);
+            await service.SimpanKeKeranjang(item);
 
         }
     }

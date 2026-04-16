@@ -2,47 +2,55 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using ASPBCOREtest1.Models;
+using ASPBCOREtest1.Service;
 
 namespace ASPBCOREtest1.Components.Pages
 {
     public partial class DaftarKeranjang
     {
-        private List<Produk> ItemKeranjang = Produk.ListKeranjang;
 
+        [Inject] private ProdukService service { get; set; }
+
+        private List<Produk> ItemKeranjang = new();
+        private decimal totalBayar = 0;
         [Inject] NavigationManager Nav { get; set; }
-        private void Removeproduk(Produk item)
+        private async Task Removeproduk(Produk item)
         {
-            if (item.JumlahKeranjang == 1)
-            Produk.ListKeranjang.Remove(item);
-            else
-            {
-                item.JumlahKeranjang--;
-            }
+            await service.RemoveItemKeranjang(item);
+            
+            await MuatKeranjang();
         }
 
-        private void KonfirmasiPembelian()
+        private async Task KonfirmasiPembelian()
         {
-            string name = "";
 
-            foreach (var item in Produk.ListKeranjang)
-            {
-                name += $"{item.Nama}({item.JumlahKeranjang}) ";
-            }
-
+            string name = string.Join(", ", ItemKeranjang.Select(item => $"{item.Nama} ({item.JumlahKeranjang})"));
+            totalBayar = ItemKeranjang.Sum(p => p.SubTotal);
             var sejarahBaru = new Produk
             {
                 Nama = name,
-                Harga = Produk.TotalSemuaKeranjang,
+                Harga = totalBayar,
                 Date = DateOnly.FromDateTime(DateTime.Now),
                 SejarahDesc = "Berhasil"
             };
 
-            Produk.ListSejarah.Add(sejarahBaru);
-
-            Produk.ListKeranjang.Clear();
-
-            Nav.NavigateTo("/sejarah");
+            await service.Checkout(sejarahBaru);
+            await MuatKeranjang();
         }
+
+        
+
+        protected override async Task OnInitializedAsync()
+        {
+            await MuatKeranjang();
+        }
+
+        private async Task MuatKeranjang()
+        {
+            ItemKeranjang = await service.GetKeranjang();
+            totalBayar = ItemKeranjang.Sum(p => p.SubTotal);
+        }
+
 
     }
 }

@@ -1,10 +1,13 @@
 using ASPBCOREtest1.Components;
+using ASPBCOREtest1.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<ProdukService>();
 
 var app = builder.Build();
 
